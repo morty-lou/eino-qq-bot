@@ -18,6 +18,7 @@ func main() {
 	ctx := context.Background()
 
 	tools.InitProviders()
+	tools.InitScheduler()
 	if err := InitAgent(ctx); err != nil {
 		log.Fatalf("初始化 Agent 失败: %v", err)
 	}

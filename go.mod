@@ -6,6 +6,7 @@ require (
 	github.com/cloudwego/eino v0.9.0-alpha.7
 	github.com/cloudwego/eino-ext/components/model/agenticark v0.1.0-alpha.2
 	github.com/joho/godotenv v1.5.1
+	github.com/robfig/cron/v3 v3.0.1
 	github.com/tencent-connect/botgo v0.2.1
 	golang.org/x/oauth2 v0.23.0
 )

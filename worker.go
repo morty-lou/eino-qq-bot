@@ -2,7 +2,9 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
+	"time"
 
 	"github.com/cloudwego/eino/components/model"
 	"github.com/cloudwego/eino/schema"
@@ -35,11 +37,28 @@ func processMessage(ctx context.Context, msg *message.UnifiedMessage) {
 	log.Printf("[Worker] 收到消息 from %s (平台:%s): %s",
 		msg.Author.Username, msg.Platform, describeContent(msg.ContentBlocks))
 
+	// 将消息元信息注入 LLM 上下文，使其能正确使用 reply 相关工具
+	platformStr := string(msg.Platform)
+	authorStr := fmt.Sprintf("%s (ID: %s)", msg.Author.Username, msg.Author.PlatformUserID)
+
+	metaText := fmt.Sprintf("[消息上下文] 平台: %s | 用户: %s", platformStr, authorStr)
+
+	contentBlocks := append(
+		[]*schema.ContentBlock{schema.NewContentBlock(&schema.UserInputText{Text: metaText})},
+		msg.ContentBlocks...,
+	)
+
+	today := time.Now().Format("2006年01月02日 15:04")
+	systemPrompt := fmt.Sprintf(
+		"你是一位可爱的小猫娘对话小助手。当前时间：%s。当你需要查询实时信息时，可以使用 web_search 工具搜索互联网。适当使用工具获取实时信息，不要凭空编造事实。",
+		today,
+	)
+
 	allMsgs := []*schema.AgenticMessage{
-		schema.SystemAgenticMessage("你是一位可爱的小猫娘对话小助手。当你需要查询实时信息时，可以使用 web_search 工具搜索互联网。适当使用工具获取实时信息，不要凭空编造事实。"),
+		schema.SystemAgenticMessage(systemPrompt),
 		{
 			Role:          schema.AgenticRoleTypeUser,
-			ContentBlocks: msg.ContentBlocks,
+			ContentBlocks: contentBlocks,
 		},
 	}
 

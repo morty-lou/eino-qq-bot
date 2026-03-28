@@ -28,6 +28,9 @@ func GetToolInfos() []*schema.ToolInfo {
 	return []*schema.ToolInfo{
 		WeatherTool{}.Info(),
 		WebSearchToolInfo(),
+		ScheduleTaskToolInfo(),
+		ListTasksToolInfo(),
+		DeleteTaskToolInfo(),
 	}
 }
 
@@ -38,6 +41,12 @@ func Invoke(ctx context.Context, name, argumentsInJSON string) (string, error) {
 		return WeatherTool{}.Run(argumentsInJSON)
 	case "web_search":
 		return invokeWebSearch(ctx, argumentsInJSON)
+	case "schedule_task":
+		return invokeScheduleTask(ctx, argumentsInJSON)
+	case "list_tasks":
+		return invokeListTasks(ctx, argumentsInJSON)
+	case "delete_task":
+		return invokeDeleteTask(ctx, argumentsInJSON)
 	default:
 		return "", fmt.Errorf("unknown tool: %s", name)
 	}

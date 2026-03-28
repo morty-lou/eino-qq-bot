@@ -9,9 +9,7 @@ import (
 // Platform IM 平台标识
 type Platform string
 
-const (
-	PlatformQQ Platform = "qq"
-)
+const PlatformQQ Platform = "qq"
 
 // UnifiedMessage 跨平台统一消息
 type UnifiedMessage struct {
