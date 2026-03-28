@@ -13,6 +13,9 @@ import (
 	"github.com/tencent-connect/botgo/dto"
 	"github.com/tencent-connect/botgo/openapi"
 	"github.com/tencent-connect/botgo/token"
+
+	"github.com/cloudwego/eino-ext/components/model/agenticark"
+	"github.com/cloudwego/eino/schema"
 )
 
 func init() {
@@ -161,4 +164,49 @@ func TestSendC2CMessage(t *testing.T) {
 	}
 
 	t.Logf("C2C 消息发送成功，msgId: %s, 内容: %s", resp.ID, resp.Content)
+}
+
+func TestLLMGenerate(t *testing.T) {
+	arkAPIKey := os.Getenv("ARK_API_KEY")
+	arkModel := os.Getenv("ARK_MODEL")
+
+	if arkAPIKey == "" || arkModel == "" {
+		t.Skip("ARK_API_KEY or ARK_MODEL not set, skipping")
+	}
+
+	// 初始化模型
+	model, err := agenticark.New(context.Background(), &agenticark.Config{
+		APIKey: arkAPIKey,
+		Model:  arkModel,
+	})
+	if err != nil {
+		t.Fatalf("初始化 LLM 模型失败: %v", err)
+	}
+
+	// 测试纯文本对话
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+
+	resp, err := model.Generate(ctx, []*schema.AgenticMessage{
+		schema.SystemAgenticMessage("你是一位可爱的小猫娘对话小助手"),
+		schema.UserAgenticMessage("你好，今天香港的天气怎么样？"),
+	})
+	if err != nil {
+		t.Fatalf("LLM 生成失败: %v", err)
+	}
+
+	// 提取回复文本
+	var reply string
+	for _, block := range resp.ContentBlocks {
+		if block.Type == schema.ContentBlockTypeAssistantGenText && block.AssistantGenText != nil {
+			reply = block.AssistantGenText.Text
+			break
+		}
+	}
+
+	if reply == "" {
+		t.Fatal("LLM 返回内容为空")
+	}
+
+	t.Logf("LLM 回复: %s", reply)
 }
