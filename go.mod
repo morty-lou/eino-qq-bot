@@ -7,6 +7,7 @@ require (
 	github.com/cloudwego/eino-ext/components/model/agenticark v0.1.0-alpha.2
 	github.com/joho/godotenv v1.5.1
 	github.com/tencent-connect/botgo v0.2.1
+	golang.org/x/oauth2 v0.23.0
 )
 
 require (
@@ -48,7 +49,6 @@ require (
 	golang.org/x/arch v0.11.0 // indirect
 	golang.org/x/exp v0.0.0-20230713183714-613f0c0eb8a1 // indirect
 	golang.org/x/net v0.34.0 // indirect
-	golang.org/x/oauth2 v0.23.0 // indirect
 	golang.org/x/sync v0.10.0 // indirect
 	golang.org/x/sys v0.29.0 // indirect
 	google.golang.org/protobuf v1.31.0 // indirect
