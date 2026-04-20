@@ -1,4 +1,4 @@
-# QQ Bot — 基于 agenticark 的智能对话机器人
+# QQ Bot — 基于 Eino框架 的智能对话机器人
 
 基于 [botgo](https://github.com/tencent-connect/botgo) QQ 机器人 + [eino agenticark](https://github.com/cloudwego/eino-ext) 豆包-seed LLM 的智能对话 bot，支持工具调用、群聊/私聊、多 worker 并发。
 
