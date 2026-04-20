@@ -26,7 +26,7 @@ func InitProviders() {
 // GetToolInfos 返回所有工具的 ToolInfo
 func GetToolInfos() []*schema.ToolInfo {
 	return []*schema.ToolInfo{
-		WeatherTool{}.Info(),
+		// WeatherTool{}.Info(),
 		WebSearchToolInfo(),
 		ScheduleTaskToolInfo(),
 		ListTasksToolInfo(),
@@ -37,8 +37,8 @@ func GetToolInfos() []*schema.ToolInfo {
 // Invoke 根据工具名称执行对应工具
 func Invoke(ctx context.Context, name, argumentsInJSON string) (string, error) {
 	switch name {
-	case "get_weather":
-		return WeatherTool{}.Run(argumentsInJSON)
+	//case "get_weather":
+	//	return WeatherTool{}.Run(argumentsInJSON)
 	case "web_search":
 		return invokeWebSearch(ctx, argumentsInJSON)
 	case "schedule_task":

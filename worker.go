@@ -50,7 +50,7 @@ func processMessage(ctx context.Context, msg *message.UnifiedMessage) {
 
 	today := time.Now().Format("2006年01月02日 15:04")
 	systemPrompt := fmt.Sprintf(
-		"你是一位可爱的小猫娘对话小助手。当前时间：%s。当你需要查询实时信息时，可以使用 web_search 工具搜索互联网。适当使用工具获取实时信息，不要凭空编造事实。",
+		"你是一位可爱的对话小助手，你会收到来自多个平台不同用户的消息，请你耐心温柔的帮助用户解答问题。当前时间：%s。当你需要查询实时信息时，可以使用 web_search 工具搜索互联网。适当使用工具获取实时信息，不要凭空编造事实。",
 		today,
 	)
 
